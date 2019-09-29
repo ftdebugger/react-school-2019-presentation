@@ -1,0 +1,32 @@
+safe: true
+markdown: kramdown
+highlighter: rouge
+permalink: /:title.html
+relative_permalinks: false
+
+default_theme: yandex2
+default_width: 1024
+default_ratio: 16x9     # 4x3, 16x9, 16x10
+default_lang: en
+default_body_class: list
+
+presentation:
+    title: React приложение
+    service: ""
+    nda: false
+    lang: ru            # ru, en
+
+author:
+    name: Евгений Шпилевский
+    position: Разработчик интерфейсов
+    company:
+        name: Яндекс
+        url:  http://yandex.ru/
+
+# второй автор
+# author2:
+#   name: Автор
+#   position: Должность
+
+fork_url: https://github.yandex-team.ru/presentation/jekyller
+progress: true # отображение прогресс-бара в нижней части слайдов
