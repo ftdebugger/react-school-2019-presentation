@@ -664,7 +664,7 @@ export const PhotoPage = withRouter(({ match }) => {
     return photo ? <Photo photo={photo} /> : 'Загружаем․․․';
 });
 ```
-
+<!--
 ## Загрузка данных в Redux
 
 1. Редьюсеры в Redux синхронные
@@ -726,6 +726,7 @@ export function fetchPhoto(photoId) {
     };
 }
 ```
+-->
 
 ## Code splitting
 {:.section}
@@ -1080,18 +1081,6 @@ const middleware = store => next => action => {
 }
 ```
 
-## redux-thunk
-
-```js
-const thunk = store => next => action => {
-    if (typeof action === 'function') {
-        return action(store.dispatch, store.getState);
-    }
-
-    return next(action);
-}
-```
-
 ## Заголовок страницы
 
 ```js
@@ -1101,6 +1090,18 @@ const changeTitle = store => next => action => {
     document.title = getPageTitle(store.getState());
 
     return result;
+}
+```
+
+## redux-thunk
+
+```js
+const thunk = store => next => action => {
+    if (typeof action === 'function') {
+        return action(store.dispatch, store.getState);
+    }
+
+    return next(action);
 }
 ```
 
