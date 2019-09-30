@@ -32,6 +32,9 @@ style: |
         height: 100%;
     }
 
+    .video-dark {
+        background: #262626;
+    }
 ---
 
 # ![](themes/yandex2/images/logo-{{ site.presentation.lang }}.svg){:.logo}
@@ -100,22 +103,9 @@ style: |
     - webpack (мой выбор)
     - @babel/node
     - ts-node
-    
-## Структура конфигов
-
-```
-├── src
-│   └── build
-│       └── configs
-│           |   client
-│           |   └── webpack.config.ts
-│           ├── server
-│           |   └── webpack.config.ts
-│           └── common.webpack.config.ts
-└── webpack.config.js
-```
 
 ## webpack.config.js
+### [https://github.com/ftdebugger/react-school-2019/blob/master/webpack.config.js](https://github.com/ftdebugger/react-school-2019/blob/master/webpack.config.js)
 
 ```js
 const serverConfig = require('./src/build/configs/server/webpack.config').default;
@@ -168,6 +158,7 @@ dist
 ```
 
 ## Сервер
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/server/index.ts](https://github.com/ftdebugger/react-school-2019/blob/master/src/server/index.ts)
 
 ```js
 import express from 'express';
@@ -182,6 +173,7 @@ app.listen(3000);
 ```
 
 ## Входной компонент
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App.tsx](https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App.tsx)
 {:.ul-code}
 
 - общая входная точка для клиента и сервера
@@ -196,6 +188,7 @@ export function App() {
 ```
 
 ## Разделение на клиентский и серверный код
+### [https://github.com/ftdebugger/react-school-2019/tree/master/src/components/App](https://github.com/ftdebugger/react-school-2019/tree/master/src/components/App)
 
 ```
 src
@@ -208,6 +201,7 @@ src
 ```
 
 ## Пример серверного кода
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40server.tsx](https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40server.tsx)
 
 ```jsx
 import { App as BaseApp } from 'components/App/App';
@@ -232,19 +226,13 @@ export function App() {
  - Нужен webpack плагин
  
 ## Webpack плагин для маппинга ресурсов
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/build/configs/client/webpack.config.ts](https://github.com/ftdebugger/react-school-2019/blob/master/src/build/configs/client/webpack.config.ts#L92)
 
 ```js
 new WebpackManifestPlugin({
     fileName: '../../asset-manifest.json',
     generate(seed, files) {
-        return {
-            files: files.reduce(function(manifest, file) {
-               if (file.name) {
-                   manifest[file.name] = file.path;
-               }
-               return manifest;
-            }, seed),
-        };
+        // ․․․
     },
 })
 ```
@@ -267,6 +255,7 @@ new WebpackManifestPlugin({
 ```
 
 ## Использование
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/server/middleware/clientAssets.ts](https://github.com/ftdebugger/react-school-2019/blob/master/src/server/middleware/clientAssets.ts)
 
 ```jsx
 readFile(join(__dirname, 'asset-manifest.json'), () => { /* формируем files */ });
@@ -284,6 +273,7 @@ export function App({ files }) {
 ```
 
 ## Рендеринг на сервере
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/server/middleware/renderPage.tsx](https://github.com/ftdebugger/react-school-2019/blob/master/src/server/middleware/renderPage.tsx)
 
 ```jsx
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -301,6 +291,7 @@ app.use(renderPage());
 ```
 
 ## Гидратация на клиенте
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/client/index.ts](https://github.com/ftdebugger/react-school-2019/blob/master/src/client/index.ts)
 
 ```jsx
 // src/client.ts
@@ -345,9 +336,10 @@ document.addEventListener('DOMContentLoaded', () => {
 2. Формируем единый стейт, единый источник правды (Redux)
 3. Рендерим компоненты по стейту
 4. Сериализуем стейт и отправляем на клиент
-5. Десериализуем стейт на клиенте и гидрируем компоненты по нему 
+5. Десериализуем стейт на клиенте и гидратируем компоненты по нему 
 
 ## Сбор данных
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/server/middleware/prepareState.ts](https://github.com/ftdebugger/react-school-2019/blob/master/src/server/middleware/prepareState.ts)
 
 ```js
 export function prepareState() {
@@ -365,6 +357,7 @@ app.use(prepareState());
 ```
 
 ## Создание Redux Store
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/utils/createStore/createStore.ts](https://github.com/ftdebugger/react-school-2019/blob/master/src/utils/createStore/createStore.ts)
 
 ```js
 import * as redux from 'redux';
@@ -378,6 +371,7 @@ export function createStore(state) {
 ```
 
 ## Рендеринг на сервере
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40server.tsx](https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40server.tsx)
 
 ```jsx
 import { Provider } from 'react-redux';
@@ -395,6 +389,7 @@ export function App({ state }) {
 ```
 
 ## Сериализация стейта
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40server.tsx](https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40server.tsx)
 
 ```jsx
 let serializedState = 'window.__PRELOADED_STATE__=' 
@@ -406,6 +401,7 @@ let serializedState = 'window.__PRELOADED_STATE__='
 ```
 
 ## App@server.tsx
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40server.tsx](https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40server.tsx)
 
 ```jsx
 <Provider store={store}>
@@ -423,6 +419,7 @@ let serializedState = 'window.__PRELOADED_STATE__='
 ```
 
 ## Гидратация на клиенте
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/client/index.ts](https://github.com/ftdebugger/react-school-2019/blob/master/src/client/index.ts)
 
 ```jsx
 const state = window.__PRELOADED_STATE__;
@@ -436,6 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 ## App@client.tsx
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40client.tsx](https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App%40client.tsx)
 
 ```jsx
 import { App as BaseApp } from 'components/App/App';
@@ -466,14 +464,15 @@ export function App({ state }) {
 3. Универсальные (react-router)
 
 ## react-router
+### [https://reacttraining.com/react-router/web/guides/quick-start](https://reacttraining.com/react-router/web/guides/quick-start)
 
 1. Декларативное описание маршрутов
 2. Работает на сервере и на клиенте
 3. Хорошо интегрируется с другими популярными библиотеками
 
-### [https://reacttraining.com/react-router/web/guides/quick-start](https://reacttraining.com/react-router/web/guides/quick-start)
 
 ## react-router
+### [https://reacttraining.com/react-router/web/api/Switch](https://reacttraining.com/react-router/web/api/Switch)
 
 ```jsx
 function App() {
@@ -488,9 +487,9 @@ function App() {
 }
 ```
 
-### [https://reacttraining.com/react-router/web/api/Switch](https://reacttraining.com/react-router/web/api/Switch)
 
 ## App@client.ts
+### [https://reacttraining.com/react-router/web/api/BrowserRouter](https://reacttraining.com/react-router/web/api/BrowserRouter)
 
 ```jsx
 import { BrowserRouter } from 'react-router-dom';
@@ -506,9 +505,9 @@ export function App({ state }) {
 };
 ```
 
-### [https://reacttraining.com/react-router/web/api/BrowserRouter](https://reacttraining.com/react-router/web/api/BrowserRouter)
 
 ## App@server.ts
+### [https://reacttraining.com/react-router/web/guides/server-rendering](https://reacttraining.com/react-router/web/guides/server-rendering)
 
 ```jsx
 import { StaticRouter } from 'react-router';
@@ -523,9 +522,9 @@ export function App({ url, state }) {
     );
 }
 ```
-### [https://reacttraining.com/react-router/web/guides/server-rendering](https://reacttraining.com/react-router/web/guides/server-rendering)
 
 ## Клиентские переходы
+### [https://reacttraining.com/react-router/web/api/Link](https://reacttraining.com/react-router/web/api/Link)
 
 ```jsx
 import { Link } from 'react-router-dom';
@@ -540,8 +539,6 @@ export function Navigation() {
 }
 ```
 
-### [https://reacttraining.com/react-router/web/api/Link](https://reacttraining.com/react-router/web/api/Link)
-
 ## Загрузка данных
 
 1. Маршрут определяется во время рендеринга
@@ -555,6 +552,7 @@ export function Navigation() {
 3. На этапе рендеринга переиспользуем роуты
 
 ## Общий конфиг маршрутизации
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/pages.ts](https://github.com/ftdebugger/react-school-2019/blob/master/src/pages.ts)
 
 ```js
 export const PAGES = {
@@ -572,6 +570,7 @@ export const PAGES = {
 ```
 
 ## Использование в компоненте
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App.tsx](https://github.com/ftdebugger/react-school-2019/blob/master/src/components/App/App.tsx)
 
 ```html
 function App() {
@@ -586,6 +585,7 @@ function App() {
 ```
 
 ## Матчинг маршрута
+### [https://reacttraining.com/react-router/web/api/matchPath](https://reacttraining.com/react-router/web/api/matchPath)
 
 ```js
 import { matchPath } from 'react-router';
@@ -601,9 +601,8 @@ export function matchUrl(url) {
 }
 ```
 
-### [https://reacttraining.com/react-router/web/api/matchPath](https://reacttraining.com/react-router/web/api/matchPath)
-
 ## Матчинг маршрута (/photo/:id)
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/server/utils/matchUrl.ts](https://github.com/ftdebugger/react-school-2019/blob/master/src/server/utils/matchUrl.ts)
 
 ```js
 matchUrl('/photo/some-id');
@@ -851,6 +850,14 @@ export function lazyComponent({ asyncLoader, syncLoader }) {
 }
 ```
 
+## Пример бага
+{:.fullscreen .video .video-dark}
+
+<video autoplay muted loop>
+    <source src="videos/lazy-reload.webm" type="video/webm">
+    <source src="videos/lazy-reload.mp4" type="video/mp4">
+</video>
+
 ## API webpack
 ### [https://webpack.js.org/api/module-methods/](https://webpack.js.org/api/module-methods/)
 
@@ -887,6 +894,7 @@ let Home = lazyComponent({
 });
 ```
 ## lazyComponent (webpack API)
+### [https://github.com/ftdebugger/react-school-2019/blob/master/src/components/Lazy/Lazy.tsx](https://github.com/ftdebugger/react-school-2019/blob/master/src/components/Lazy/Lazy.tsx)
 
 ```js
 export const lazyComponent = ({ id, asyncLoader, syncLoader }) => (props) => {
@@ -1140,8 +1148,10 @@ export const App = withRouter(({ match }) => {
  
 ## Основные ссылки
 
-1. [next.js](https://nextjs.org/) - один из примеров готового SSR из коробки
-2. [loadable-components](https://github.com/smooth-code/loadable-components) - react code splitting
+1. [ftdebugger/react-school-2019](https://github.com/ftdebugger/react-school-2019) - репозиторий со всем кодом из презентации
+2. [bem.info](https://ru.bem.info/technologies/bem-react/) - документация по БЭМ
+3. [next.js](https://nextjs.org/) - один из примеров готового SSR из коробки
+4. [loadable-components](https://github.com/smooth-code/loadable-components) - react code splitting
 
 
 ## Ссылка на код
