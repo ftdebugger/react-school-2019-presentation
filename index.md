@@ -393,7 +393,7 @@ export function App({ state }) {
 
 ```jsx
 let serializedState = 'window.__PRELOADED_STATE__=' 
-    + JSON.stringify(state).replace(/</g, '\\\u003c');
+    + JSON.stringify(state).replace(/</g, '\\u003c');
 
 <script 
     dangerouslySetInnerHTML={ { __html: serializedState } } 
